@@ -5,22 +5,21 @@ terraform {
       version = "~> 3.0"
     }
   }
-  required_version = ">= 1.0.0"
 }
 
 provider "docker" {}
 
+# Pull the latest Nginx image
 resource "docker_image" "nginx" {
-  name         = "nginx:latest"
-  keep_locally = false
+  name = "nginx:latest"
 }
 
+# Run an Nginx container
 resource "docker_container" "nginx_container" {
-  image = docker_image.nginx.latest
-  name  = var.container_name
-
+  name  = "nginx_container"
+  image = docker_image.nginx.name
   ports {
     internal = 80
-    external = var.external_port
+    external = 8080
   }
 }
