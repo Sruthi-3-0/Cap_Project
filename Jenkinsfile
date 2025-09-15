@@ -4,7 +4,9 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/your-username/your-repo.git'
+                git branch: 'main',
+                    url: 'https://github.com/Sruthi-3-0/cp_project.git',
+                    credentialsId: 'github-creds'
             }
         }
 
