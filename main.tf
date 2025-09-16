@@ -17,7 +17,7 @@ resource "docker_image" "nginx" {
 # Run a container with Nginx
 resource "docker_container" "nginx_container" {
   name  = "nginx_container"
-  image = docker_image.nginx.name   # ✅ FIXED
+  image = docker_image.nginx.name
 
   ports {
     internal = 80
