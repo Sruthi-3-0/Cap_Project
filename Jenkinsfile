@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        VAULT_ADDR = "http://127.0.0.1:8200"
+        VAULT_TOKEN = "root"  // Replace with credentials binding in Jenkins for security
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -10,10 +15,17 @@ pipeline {
             }
         }
 
+        stage('Cleanup Existing Docker Container') {
+            steps {
+                bat 'docker rm -f nginx_demo || echo "No existing container"'
+            }
+        }
+
         stage('Terraform Init & Apply') {
             steps {
+                bat 'set VAULT_TOKEN=%VAULT_TOKEN%'
                 bat 'terraform init'
-                bat 'terraform apply -auto-approve'
+                bat 'terraform apply -auto-approve -var "vault_token=%VAULT_TOKEN%"'
             }
         }
 
