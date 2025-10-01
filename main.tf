@@ -12,9 +12,11 @@ terraform {
 }
 
 provider "docker" {}
+
+# Vault provider reads token from environment variable
 provider "vault" {
-  address = "http://127.0.0.1:8200"  
-  token   = "root"                 
+  address = "http://127.0.0.1:8200"
+  token   = var.vault_token
 }
 
 # Fetch secret from Vault
