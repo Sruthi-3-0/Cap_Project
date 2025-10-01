@@ -15,6 +15,15 @@ pipeline {
             }
         }
 
+        stage('Ensure Vault Secret Exists') {
+            steps {
+                script {
+                    // Write secret to Vault if not already exists
+                    bat 'docker exec vault sh -c "export VAULT_ADDR=http://127.0.0.1:8200 && export VAULT_TOKEN=root && vault kv put secret/mysecret username=admin password=admin123 || echo Secret exists"'
+                }
+            }
+        }
+
         stage('Cleanup Existing Docker Container') {
             steps {
                 bat 'docker rm -f nginx_demo || echo "No existing container"'
