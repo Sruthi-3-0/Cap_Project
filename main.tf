@@ -12,7 +12,8 @@ terraform {
 }
 
 provider "docker" {
-  host = "unix:///var/run/docker.sock" # or "tcp://127.0.0.1:2375" on Windows if configured
+  # Use Unix socket on Linux/macOS; on Windows, configure Docker TCP if needed
+  host = "unix:///var/run/docker.sock"
 }
 
 provider "vault" {
@@ -31,9 +32,10 @@ resource "docker_container" "nginx_container" {
   }
 }
 
-# Vault secret
+# Vault KV v2 secret
 resource "vault_kv_secret_v2" "mysecret" {
-  path = "secret/mysecret"
+  name  = "mysecret"   # Name of the secret
+  mount = "secret"     # KV engine mount path
 
   data_json = jsonencode({
     username = "admin"
