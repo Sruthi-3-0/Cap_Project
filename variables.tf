@@ -9,7 +9,7 @@ variable "external_port" {
 }
 
 variable "vault_token" {
-  type    = string
-  description = "Vault token is read from environment variable"
-  default = ""  # will use ENV variable, not hardcoded
+  type        = string
+  description = "Vault root token (or set via ENV)"
+  default     = ""  # Terraform reads from ENV
 }

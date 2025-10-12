@@ -2,8 +2,3 @@
 terraform.tfstate
 terraform.tfstate.backup
 *.tfvars
-*.log
-.vscode/
-.idea/
-security/*.txt
-Cap_Project/ 

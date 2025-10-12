@@ -13,7 +13,6 @@ terraform {
 
 provider "docker" {}
 
-# Vault provider reads token from environment variable
 provider "vault" {
   address = "http://127.0.0.1:8200"
   token   = var.vault_token
@@ -24,12 +23,12 @@ data "vault_generic_secret" "mysecret" {
   path = "secret/mysecret"
 }
 
-# Pull the nginx:latest image
+# Pull nginx image
 resource "docker_image" "nginx" {
   name = "nginx:latest"
 }
 
-# Run a container with Nginx and Vault secrets as env
+# Run container with secrets as env variables
 resource "docker_container" "nginx_container" {
   name  = var.container_name
   image = docker_image.nginx.name
