@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         VAULT_ADDR = "http://127.0.0.1:8200"
-        VAULT_TOKEN = "root"  // Replace with credentials binding in Jenkins for security
+        VAULT_TOKEN = credentials('vault-root-token')  // Use Jenkins credentials instead of hardcoding
     }
 
     stages {
@@ -12,6 +12,14 @@ pipeline {
                 git branch: 'main',
                     url: 'https://github.com/Sruthi-3-0/Cap_Project.git',
                     credentialsId: 'github-creds'
+            }
+        }
+
+        stage('Ensure Vault Secret Exists') {
+            steps {
+                script {
+                    bat 'docker exec vault sh -c "export VAULT_ADDR=http://127.0.0.1:8200 && export VAULT_TOKEN=$VAULT_TOKEN && vault kv put secret/mysecret username=admin password=admin123 || echo Secret exists"'
+                }
             }
         }
 
