@@ -16,11 +16,6 @@ provider "docker" {
 }
 
 provider "vault" {
-  token = var.vault_token
-  address = var.vault_addr
-}
-
-provider "vault" {
   address = var.vault_addr
   token   = var.vault_token
 }
@@ -29,6 +24,7 @@ provider "vault" {
 resource "docker_container" "nginx_container" {
   name  = var.container_name
   image = var.docker_image
+
   ports {
     internal = 80
     external = 8080
