@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         VAULT_ADDR = "http://127.0.0.1:8200"
-        VAULT_TOKEN = credentials('vault-root-token')  // Use Jenkins credentials instead of hardcoding
+        VAULT_TOKEN = credentials('vault-root-token')
     }
 
     stages {
@@ -18,7 +18,7 @@ pipeline {
         stage('Ensure Vault Secret Exists') {
             steps {
                 script {
-                    bat 'docker exec vault sh -c "export VAULT_ADDR=http://127.0.0.1:8200 && export VAULT_TOKEN=$VAULT_TOKEN && vault kv put secret/mysecret username=admin password=admin123 || echo Secret exists"'
+                    bat 'docker exec vault sh -c "export VAULT_ADDR=http://127.0.0.1:8200 && export VAULT_TOKEN=%VAULT_TOKEN% && vault kv put secret/mysecret username=admin password=admin123 || echo Secret exists"'
                 }
             }
         }
