@@ -1,4 +1,24 @@
-provider "docker" {}
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = ">= 3.6.2"
+    }
+    vault = {
+      source  = "hashicorp/vault"
+      version = ">= 3.25.0"
+    }
+  }
+}
+
+provider "docker" {
+  host = "unix:///var/run/docker.sock" # or "tcp://127.0.0.1:2375" on Windows if configured
+}
+
+provider "vault" {
+  token = var.vault_token
+  address = var.vault_addr
+}
 
 provider "vault" {
   address = var.vault_addr
